@@ -1,16 +1,13 @@
 package testproject.store.testing;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class oderService {
     private paymentService paymentService;
 
-    public oderService(paymentService paymentService) {
-        this.paymentService = paymentService;
-    }
-
-    public void setPaymentService(paymentService paymentService) {
+    public oderService(@Qualifier("bkash") paymentService paymentService) {
         this.paymentService = paymentService;
     }
 
