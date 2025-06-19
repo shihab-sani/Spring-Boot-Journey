@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class oderService {
-    private paymentService paymentService;
+    private final paymentService paymentService;
 
     public oderService(@Qualifier("bkash") paymentService paymentService) {
         this.paymentService = paymentService;
