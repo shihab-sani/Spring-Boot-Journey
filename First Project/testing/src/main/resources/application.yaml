@@ -1,0 +1,6 @@
+stripe:
+    apiURL: https://api.stripe.com
+    currency: usd,eur,gbp
+
+payment-gateway: stripe
+
