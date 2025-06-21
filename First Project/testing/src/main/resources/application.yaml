@@ -4,3 +4,11 @@ stripe:
 
 payment-gateway: stripe
 
+mail:
+    host: https://smtp.example.com
+    port: 5761
+
+sms:
+    host: https://sms.example.com
+    port: 5762
+
