@@ -14,7 +14,7 @@ public class TestingApplication {
 		var oderService = context.getBean(oderService.class);
 		oderService.placeOrder();
 
-		// var paymentService = new oderService(new stripPaymentService());
-		// paymentService.placeOrder();
+		var notificationManager = context.getBean(NotificationManager.class);
+		notificationManager.sendNotification("Order placed successfully!");
 	}
 }

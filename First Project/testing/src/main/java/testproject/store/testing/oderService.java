@@ -1,8 +1,4 @@
 package testproject.store.testing;
-
-import org.springframework.stereotype.Component;
-
-@Component
 public class oderService {
     private final paymentService paymentService;
 
