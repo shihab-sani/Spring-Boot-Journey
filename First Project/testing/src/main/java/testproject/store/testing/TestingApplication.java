@@ -14,7 +14,11 @@ public class TestingApplication {
 		var oderService = context.getBean(oderService.class);
 		oderService.placeOrder();
 
-		var notificationManager = context.getBean(NotificationManager.class);
-		notificationManager.sendNotification("Order placed successfully!");
+		var UserService = context.getBean(UserService.class);
+		UserService.registerUser(new User("Shihab","mdsani633@gmail.com",2320590,"1234567890"));
+		UserService.registerUser(new User("Sani","ssani@kent.edu",2320590,"1234567890"));
+
+		// var notificationManager = context.getBean(NotificationManager.class);
+		// notificationManager.sendNotification("Order placed successfully!");
 	}
 }
