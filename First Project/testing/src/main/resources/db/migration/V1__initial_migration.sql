@@ -1,19 +1,20 @@
--- Active: 1751129995183@@localhost@3306@first_project_store
-CREATE TABLE `adresses` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `street` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `zip` varchar(255) NOT NULL,
-  `user_id` bigint NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_idx` (`user_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+create table user
+(
+    id       bigint auto_increment
+        primary key,
+    name     varchar(255) not null,
+    email    varchar(255) not null,
+    passward varchar(255) not null
+);
 
-CREATE TABLE `user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) NOT NULL,
-  `user_email` varchar(255) NOT NULL,
-  `user_passward` varchar(255) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+create table addresses
+(
+    id      bigint auto_increment
+        primary key,
+    street  varchar(255) not null,
+    city    varchar(255) not null,
+    zip     int          not null,
+    user_id bigint       not null,
+    constraint addresses_user_id_fk
+        foreign key (user_id) references user (id)
+);
