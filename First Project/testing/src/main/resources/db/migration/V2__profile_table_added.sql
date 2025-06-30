@@ -1,6 +1,6 @@
 create table profile
 (
-    id            bigint,
+    id            bigint auto_increment,
     bio           varchar(255)   not null,
     phone_number  bigint         null,
     date_of_birth varchar(255)   null,

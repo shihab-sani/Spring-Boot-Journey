@@ -1,7 +1,14 @@
+create table tags
+(
+    id   bigint auto_increment
+        primary key,
+    name varchar(255) not null
+);
+
 create table user_tags
 (
-    user_id bigint auto_increment,
-    tag_id  bigint,
+    user_id bigint not null,
+    tag_id  bigint not null,
     constraint user_tags_pk
         primary key (user_id, tag_id),
     constraint user_tags_user_id_fk
@@ -10,12 +17,4 @@ create table user_tags
         foreign key (tag_id) references tags (id)
 );
 
-alter table user_tags
-    modify tag_id bigint auto_increment;
 
-create table tags
-(
-    id   bigint auto_increment
-        primary key,
-    name varchar(255) not null
-);
