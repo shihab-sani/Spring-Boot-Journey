@@ -1,9 +1,12 @@
 package testproject.store.testing.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 @Getter
 @Setter
 @Entity
@@ -22,4 +25,9 @@ public class Addresses {
 
     @Column(name = "zip")
     private int zip;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private  User user;
 }
