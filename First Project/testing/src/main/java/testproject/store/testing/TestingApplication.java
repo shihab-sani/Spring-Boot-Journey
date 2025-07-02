@@ -18,13 +18,15 @@ public class TestingApplication {
 				.password("password123")
 				.build();
 
-		var addresses = Addresses.builder()
-				.street("123 Main St")
-				.city("Anytown")
-				.zip(12345)
-				.build();
+//		var addresses = Addresses.builder()
+//				.street("123 Main St")
+//				.city("Anytown")
+//				.zip(12345)
+//				.build();
+//
+//		user.addAddress(addresses);
 
-		user.addAddress(addresses);
+		user.addTag("admin");
 
 		System.out.println(user);
 	}
