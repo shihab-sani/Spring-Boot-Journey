@@ -51,6 +51,10 @@ public class User {
         tag.getUsers().add(this);
     }
 
+    public void removeTag(String tagName) {
+        tags.removeIf(tag -> tag.getName().equals(tagName));
+    }
+
     @ManyToMany
     @JoinTable(
         name = "user_tags",
