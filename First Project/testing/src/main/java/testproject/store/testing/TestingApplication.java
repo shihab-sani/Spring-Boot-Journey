@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import testproject.store.testing.entities.Addresses;
+import testproject.store.testing.entities.Profile;
 import testproject.store.testing.entities.User;
 
 @SpringBootApplication
@@ -26,7 +27,14 @@ public class TestingApplication {
 //
 //		user.addAddress(addresses);
 
-		user.addTag("admin");
+//		user.addTag("admin");
+
+		var profile = Profile.builder()
+						.bio("Software Engineer")
+				        .build();
+
+		user.setProfile(profile);
+		profile.setUser(user);
 
 		System.out.println(user);
 	}

@@ -2,11 +2,14 @@ package testproject.store.testing.entities;
 
 import com.sun.tools.attach.AgentInitializationException;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @Entity
@@ -28,5 +31,11 @@ public class Profile {
 
     @Column(name = "loyalty_point")
     private int loyaltyPoints;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId
+    @ToString.Exclude
+    private User user;
 
 }
