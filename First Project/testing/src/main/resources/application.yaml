@@ -3,19 +3,4 @@ spring:
         url: jdbc:mysql://localhost:3306/first_project?createDatabaseIfNotExist=true
         username: root
         password: Shihab14032001
-        
-
-stripe:
-    apiURL: https://api.stripe.com
-    currency: usd,eur,gbp
-
-payment-gateway: stripe
-
-mail:
-    host: https://smtp.example.com
-    port: 5761
-
-sms:
-    host: https://sms.example.com
-    port: 5762
 

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,4 +32,7 @@ public class Products {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Categories category;
+
+    @ManyToMany(mappedBy = "products")
+    private Set<User> users = new HashSet<>();
 }
