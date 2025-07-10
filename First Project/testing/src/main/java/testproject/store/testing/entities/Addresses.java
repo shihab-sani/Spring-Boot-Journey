@@ -26,7 +26,7 @@ public class Addresses {
     @Column(name = "zip")
     private int zip;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private  User user;

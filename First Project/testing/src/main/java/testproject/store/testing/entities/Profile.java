@@ -32,10 +32,9 @@ public class Profile {
     @Column(name = "loyalty_point")
     private int loyaltyPoints;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     @MapsId
     @ToString.Exclude
     private User user;
-
 }
