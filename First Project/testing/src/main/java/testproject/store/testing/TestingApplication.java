@@ -13,7 +13,10 @@ public class TestingApplication {
 
 		var service = context.getBean(UserService.class);
 
-		service.showRelatedEntities();
+//		service.showRelatedEntities();
+//		service.EntityState();
+//		service.persistEntity();
+		service.deleteEntity();
 
 //		var user = User.builder()
 //				.name("John Doe")
