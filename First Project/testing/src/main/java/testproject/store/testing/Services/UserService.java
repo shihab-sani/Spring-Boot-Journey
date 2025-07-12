@@ -81,4 +81,12 @@ public class UserService {
 
         productsRepository.save(product);
     }
+
+    @Transactional
+    public void userWishList() {
+        var user = userRepository.findById(2L).orElseThrow();
+        var products = productsRepository.findAll();
+        products.forEach(user::addFavorite);
+        userRepository.save(user);
+    }
 }
