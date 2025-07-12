@@ -4,6 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import testproject.store.testing.Services.UserService;
+import testproject.store.testing.entities.Categories;
+import testproject.store.testing.entities.Products;
+import testproject.store.testing.repositories.CategoriesRepository;
+import testproject.store.testing.repositories.ProductsRepository;
 
 @SpringBootApplication
 public class TestingApplication {
@@ -12,11 +16,36 @@ public class TestingApplication {
 		ApplicationContext context = SpringApplication.run(TestingApplication.class, args);
 
 		var service = context.getBean(UserService.class);
+//		service.manageProducts();
+		service.userWishList();
+
+//		var repository = context.getBean(ProductsRepository.class);
+//		var categoriesRepository = context.getBean(CategoriesRepository.class);
+
+//		var products = Products.builder()
+//				.name("Laptop")
+//				.price(new java.math.BigDecimal("999.99"))
+//				.build();
+//		var products2 = Products.builder()
+//				.name("Smartphone")
+//				.price(new java.math.BigDecimal("499.99"))
+//				.build();
+//		var category = Categories.builder()
+//				.name("Electronics")
+//				.build();
+
+//		categoriesRepository.save(category);
+//		products2.setCategory(category);
+//		repository.save(products2);
+
+//		repository.deleteById(1L);
+
+//		var service = context.getBean(UserService.class);
 
 //		service.showRelatedEntities();
 //		service.EntityState();
 //		service.persistEntity();
-		service.deleteEntity();
+//		service.deleteEntity();
 
 //		var user = User.builder()
 //				.name("John Doe")
