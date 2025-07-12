@@ -68,7 +68,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Profile profile;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
         name = "wishlist",
         joinColumns = @JoinColumn(name = "user_id"),

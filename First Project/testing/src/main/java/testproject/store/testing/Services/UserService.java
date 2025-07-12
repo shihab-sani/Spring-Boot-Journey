@@ -63,10 +63,11 @@ public class UserService {
     @Transactional
     public void deleteEntity() {
 //        userRepository.deleteById(1L);
-        var user = userRepository.findById(6L).orElseThrow();
-        var address = user.getAddresses().getFirst();
-        user.removeAddress(address);
-        userRepository.save(user);
+//        var user = userRepository.findById(6L).orElseThrow();
+//        var address = user.getAddresses().getFirst();
+//        user.removeAddress(address);
+//        userRepository.save(user);
+        productsRepository.deleteById(4L);
     }
 
     @Transactional
