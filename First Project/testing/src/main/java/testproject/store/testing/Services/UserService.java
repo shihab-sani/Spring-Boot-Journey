@@ -5,10 +5,10 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import testproject.store.testing.entities.Addresses;
+import testproject.store.testing.entities.Categories;
+import testproject.store.testing.entities.Products;
 import testproject.store.testing.entities.User;
-import testproject.store.testing.repositories.AddressesRepository;
-import testproject.store.testing.repositories.ProfileRepository;
-import testproject.store.testing.repositories.UserRepository;
+import testproject.store.testing.repositories.*;
 
 @AllArgsConstructor
 @Service
@@ -17,6 +17,8 @@ public class UserService {
     private final ProfileRepository profileRepository;
     private final AddressesRepository addressesRepository;
     private final EntityManager entityManager;
+    private final ProductsRepository productsRepository;
+    private final CategoriesRepository categoriesRepository;
 
     @Transactional
     public void EntityState() {
@@ -65,5 +67,18 @@ public class UserService {
         var address = user.getAddresses().getFirst();
         user.removeAddress(address);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void manageProducts() {
+//        var category = Categories.builder().name("Electronics").build();
+        var category = categoriesRepository.findById((byte)3L).orElseThrow();
+        var product = Products.builder()
+                .name("Smartphone")
+                .price(new java.math.BigDecimal("999.99"))
+                .category(category)
+                .build();
+
+        productsRepository.save(product);
     }
 }
