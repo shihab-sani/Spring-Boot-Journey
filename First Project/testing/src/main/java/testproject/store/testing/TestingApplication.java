@@ -19,7 +19,8 @@ public class TestingApplication {
 //		service.manageProducts();
 //		service.userWishList();
 //		service.deleteEntity();
-		service.updatePrice();
+//		service.updatePrice();
+		service.fetchProducts();
 
 //		var repository = context.getBean(ProductsRepository.class);
 //		var categoriesRepository = context.getBean(CategoriesRepository.class);
