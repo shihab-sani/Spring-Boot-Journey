@@ -10,6 +10,8 @@ import testproject.store.testing.entities.Products;
 import testproject.store.testing.entities.User;
 import testproject.store.testing.repositories.*;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Service
 public class UserService {
@@ -89,5 +91,10 @@ public class UserService {
         var products = productsRepository.findAll();
         products.forEach(user::addFavorite);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void updatePrice() {
+        productsRepository.updatePrice(new BigDecimal("899.00"), (byte) 3);
     }
 }
