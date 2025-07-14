@@ -26,4 +26,8 @@ public class Categories {
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     @Builder.Default
     private Set<Products> products = new HashSet<>();
+
+    public Categories(byte b) {
+        this.id = b;
+    }
 }
