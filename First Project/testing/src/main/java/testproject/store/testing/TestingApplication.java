@@ -20,7 +20,9 @@ public class TestingApplication {
 //		service.userWishList();
 //		service.deleteEntity();
 //		service.updatePrice();
-		service.fetchProducts();
+//		service.fetchProducts();
+//		service.fetchUser();
+		service.fetchUsers();
 
 //		var repository = context.getBean(ProductsRepository.class);
 //		var categoriesRepository = context.getBean(CategoriesRepository.class);
