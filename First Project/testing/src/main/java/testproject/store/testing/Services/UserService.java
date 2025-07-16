@@ -102,4 +102,19 @@ public class UserService {
         var products = productsRepository.findCategory(new Categories((byte) 3));
         products.forEach(System.out::println);
     }
+
+//    @Transactional
+//    public void fetchUser() {
+//        var users = userRepository.findByEmail("mdsani633@gmail.com");
+//        System.out.println(users);
+//    }
+
+    @Transactional
+    public void fetchUsers() {
+        var users = userRepository.findAllWithAddress();
+        users.forEach(u -> {
+            System.out.println(u);
+            u.getAddresses().forEach(System.out::println);
+        });
+    }
 }
