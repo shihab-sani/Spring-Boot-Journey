@@ -2,6 +2,7 @@ package testproject.store.testing.repositories;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import testproject.store.testing.DataTransferObjects.ProductSummary;
@@ -26,8 +27,8 @@ public interface ProductsRepository extends CrudRepository<Products, Long> {
 //    List<Products> findByPrice(@Param("min") BigDecimal min, @Param("max") BigDecimal max);
 
     //With JPQL
-    @Query(value = "SELECT p FROM Products p JOIN p.category WHERE p.price BETWEEN :min AND :max ORDER BY p.name")
-    List<Products> findProducts(@Param("min") BigDecimal min, @Param("max") BigDecimal max);
+    @Procedure("findProductsByPrice")
+    List<Products> findProducts(BigDecimal min, BigDecimal max);
 
     @Query(value = "SELECT COUNT(*) FROM Products p WHERE p.price BETWEEN :min AND :max")
     long countProducts(@Param("min") BigDecimal min, @Param("max") BigDecimal max);
