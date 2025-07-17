@@ -120,4 +120,10 @@ public class UserService {
             u.getAddresses().forEach(System.out::println);
         });
     }
+
+    @Transactional
+    public void fetchProfile() {
+        var profile = profileRepository.findByLoyaltyPoints(20);
+        System.out.println(profile);
+    }
 }
