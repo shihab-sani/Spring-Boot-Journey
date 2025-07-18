@@ -5,7 +5,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import testproject.store.testing.entities.Addresses;
-import testproject.store.testing.entities.Categories;
 import testproject.store.testing.entities.Products;
 import testproject.store.testing.entities.User;
 import testproject.store.testing.repositories.*;
@@ -123,7 +122,18 @@ public class UserService {
 
     @Transactional
     public void fetchProfile() {
-        var profile = profileRepository.findByLoyaltyPoints(20);
-        System.out.println(profile);
+//        var profile = profileRepository.findByLoyaltyPointsGreaterThan(10);
+//        profile.forEach(p -> {
+//            System.out.println(p.getId() + ": " + p.getUser().getEmail());
+//        });
+//        var profile = profileRepository.findLoyaltyPointsByOrder(2);
+//        profile.forEach(p -> {
+//            System.out.println(p.getId() + ": " + p.getEmail());
+//        });
+
+        var profile = userRepository.findLoyalUser(2);
+        profile.forEach(p -> {
+            System.out.println(p.getId() + ": " + p.getEmail());
+        });
     }
 }
