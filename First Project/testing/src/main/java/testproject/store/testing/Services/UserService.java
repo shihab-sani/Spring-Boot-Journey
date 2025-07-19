@@ -115,6 +115,11 @@ public class UserService {
         productsRepository.findAll(example).forEach(System.out::println);
     }
 
+    public void fetchProductsByCriteria() {
+        var products = productsRepository.findProductsByCriteria(null, BigDecimal.valueOf(500), BigDecimal.valueOf(1000));
+        products.forEach(System.out::println);
+    }
+
     @Transactional
     public void fetchUser() {
         var users = userRepository.findByEmail("mdsani633@gmail.com");

@@ -13,7 +13,7 @@ import testproject.store.testing.entities.Products;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductsRepository extends JpaRepository<Products, Long> {
+public interface ProductsRepository extends JpaRepository<Products, Long>, ProductCriteriaRepository {
     //Sort(By Order)
     List<Products> findByNameOrderByPrice(String name);
 
