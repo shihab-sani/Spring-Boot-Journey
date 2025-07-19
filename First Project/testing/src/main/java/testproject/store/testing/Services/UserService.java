@@ -3,6 +3,8 @@ package testproject.store.testing.Services;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import testproject.store.testing.entities.Addresses;
 import testproject.store.testing.entities.Products;
@@ -101,8 +103,16 @@ public class UserService {
     public void fetchProducts() {
 //        var products = productsRepository.findCategory(new Categories((byte) 3));
 //        products.forEach(System.out::println);
-        var products = productsRepository.findProducts(BigDecimal.valueOf(500), BigDecimal.valueOf(1000));
-        products.forEach(System.out::println);
+//        var products = productsRepository.findProducts(BigDecimal.valueOf(500), BigDecimal.valueOf(1000));
+//        products.forEach(System.out::println);
+
+        var products = new Products();
+        products.setName("Laptop");
+        var match = ExampleMatcher.matching().
+                withIncludeNullValues().
+                withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        var example = Example.of(products, match);
+        productsRepository.findAll(example).forEach(System.out::println);
     }
 
     @Transactional
