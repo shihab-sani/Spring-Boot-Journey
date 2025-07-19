@@ -1,5 +1,6 @@
 package testproject.store.testing.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -12,7 +13,7 @@ import testproject.store.testing.entities.Products;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductsRepository extends CrudRepository<Products, Long> {
+public interface ProductsRepository extends JpaRepository<Products, Long> {
     //Sort(By Order)
     List<Products> findByNameOrderByPrice(String name);
 
