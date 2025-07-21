@@ -3,8 +3,7 @@ package testproject.store.testing.Services;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import testproject.store.testing.entities.Addresses;
@@ -135,6 +134,26 @@ public class UserService {
             spec = spec.and(ProductSpecification.byPriceLessThanOrEqualTo(max));
         }
         productsRepository.findAll(spec).forEach(System.out::println);
+    }
+
+    public void fetchProductsBySort() {
+        Sort sort = Sort.by("name").and(
+                Sort.by("price").descending()
+        );
+        productsRepository.findAll(sort).forEach(System.out::println);
+    }
+
+    public void fetchPaginatedProducts(int pagrNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pagrNumber, pageSize);
+        Page<Products> productsPage = productsRepository.findAll(pageRequest);
+
+        var products = productsPage.getContent();
+        products.forEach(System.out::println);
+
+        var totalPages = productsPage.getTotalPages();
+        var totalElements = productsPage.getTotalElements();
+        System.out.println("Total Pages: " + totalPages);
+        System.out.println("Total Elements: " + totalElements);
     }
 
     @Transactional
