@@ -5,11 +5,13 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import testproject.store.testing.entities.Addresses;
 import testproject.store.testing.entities.Products;
 import testproject.store.testing.entities.User;
 import testproject.store.testing.repositories.*;
+import testproject.store.testing.repositories.Specification.ProductSpecification;
 
 import java.math.BigDecimal;
 
@@ -118,6 +120,21 @@ public class UserService {
     public void fetchProductsByCriteria() {
         var products = productsRepository.findProductsByCriteria(null, BigDecimal.valueOf(500), BigDecimal.valueOf(1000));
         products.forEach(System.out::println);
+    }
+
+    public void fetchProductsBySpecification(String name, BigDecimal min, BigDecimal max) {
+        Specification<Products> spec = Specification.where(null);
+
+        if (name != null) {
+            spec = spec.and(ProductSpecification.byName(name));
+        }
+        if (min != null) {
+            spec = spec.and(ProductSpecification.byPriceGreaterThanOrEqualTo(min));
+        }
+        if (max != null) {
+            spec = spec.and(ProductSpecification.byPriceLessThanOrEqualTo(max));
+        }
+        productsRepository.findAll(spec).forEach(System.out::println);
     }
 
     @Transactional

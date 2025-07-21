@@ -24,7 +24,8 @@ public class TestingApplication {
 //		service.fetchUser();
 //		service.fetchUsers();
 //		service.fetchProfile();
-		service.fetchProductsByCriteria();
+//		service.fetchProductsByCriteria();
+		service.fetchProductsBySpecification("laptop",null,null);
 
 //		var repository = context.getBean(ProductsRepository.class);
 //		var categoriesRepository = context.getBean(CategoriesRepository.class);
