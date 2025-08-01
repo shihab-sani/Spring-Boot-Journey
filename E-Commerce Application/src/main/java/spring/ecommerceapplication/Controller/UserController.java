@@ -1,15 +1,14 @@
 package spring.ecommerceapplication.Controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spring.ecommerceapplication.DTOS.UserDtos;
-import spring.ecommerceapplication.Entities.User;
 import spring.ecommerceapplication.Mappers.UserMapper;
 import spring.ecommerceapplication.Repositories.UserRepository;
+
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -19,8 +18,12 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public Iterable<UserDtos> getAllUsers() {
-        return userRepository.findAll()
+    public Iterable<UserDtos> getAllUsers(@RequestParam(required = false, defaultValue = "", name = "sort") String sortBy, Sort sort) {
+        if(!Set.of("name","email").contains(sortBy)) {
+            sortBy= "name";
+        }
+
+        return userRepository.findAll(Sort.by(sortBy))
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
