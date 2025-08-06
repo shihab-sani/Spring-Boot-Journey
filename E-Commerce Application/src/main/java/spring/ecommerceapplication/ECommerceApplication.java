@@ -10,8 +10,5 @@ public class ECommerceApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(ECommerceApplication.class, args);
-
-        var beanNames = context.getBean(HomeController.class);
     }
-
 }
