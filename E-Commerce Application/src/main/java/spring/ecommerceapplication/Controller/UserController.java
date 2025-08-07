@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import spring.ecommerceapplication.DTOS.UpdateUserDtos;
 import spring.ecommerceapplication.DTOS.UserDtos;
 import spring.ecommerceapplication.DTOS.RegisterUserDtos;
 import spring.ecommerceapplication.Mappers.UserMapper;
@@ -51,5 +52,16 @@ public class UserController {
         var userDto = userMapper.toDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(userDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDtos> updateUser(@PathVariable(name = "id") Long id, @RequestBody UpdateUserDtos request) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userMapper.updateUser(user, request);
+        userRepository.save(user);
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 }
