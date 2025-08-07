@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import spring.ecommerceapplication.DTOS.UserDtos;
+import spring.ecommerceapplication.DTOS.RegisterUserDtos;
 import spring.ecommerceapplication.Mappers.UserMapper;
 import spring.ecommerceapplication.Repositories.UserRepository;
 
@@ -18,7 +20,10 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
-    public Iterable<UserDtos> getAllUsers(@RequestParam(required = false, defaultValue = "", name = "sort") String sortBy, Sort sort) {
+    public Iterable<UserDtos> getAllUsers(
+            @RequestHeader(required = false, name="auth-token") String authToken,
+            @RequestParam(required = false, defaultValue = "", name = "sort") String sortBy, Sort sort) {
+        System.out.println(authToken);
         if(!Set.of("name","email").contains(sortBy)) {
             sortBy= "name";
         }
@@ -37,5 +42,14 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDtos> createUser(@RequestBody RegisterUserDtos request, UriComponentsBuilder uriBuilder) {
+        var user = userMapper.toEntity(request);
+        userRepository.save(user);
+        var userDto = userMapper.toDto(user);
+        var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(userDto);
     }
 }
