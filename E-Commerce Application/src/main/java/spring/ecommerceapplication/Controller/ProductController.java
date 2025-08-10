@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import spring.ecommerceapplication.DTOS.ProductDtos;
+import spring.ecommerceapplication.DTOS.UpdateProductDtos;
 import spring.ecommerceapplication.Entities.Products;
 import spring.ecommerceapplication.Mappers.ProductMapper;
 import spring.ecommerceapplication.Repositories.CategoryRepository;
@@ -54,5 +55,21 @@ public class ProductController {
         request.setId(product.getId());
         var uri = uriBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
         return ResponseEntity.created(uri).body(request);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDtos> updateProduct(@PathVariable Long id, @RequestBody UpdateProductDtos request) {
+        var product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        productMapper.updateProduct(product, request);
+        var category = categoriesRepository.findById(request.getCategoryId()).orElse(null);
+        if (category == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        product.setCategory(category);
+        productRepository.save(product);
+        return ResponseEntity.ok(productMapper.toDto(product));
     }
 }
