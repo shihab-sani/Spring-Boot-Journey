@@ -1,10 +1,11 @@
 package spring.ecommerceapplication.DTOS;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor
-@Getter
+@Data
 public class ProductDtos {
     private Long id;
     private String name;

@@ -1,12 +1,13 @@
 package spring.ecommerceapplication.Controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import spring.ecommerceapplication.DTOS.ProductDtos;
 import spring.ecommerceapplication.Entities.Products;
 import spring.ecommerceapplication.Mappers.ProductMapper;
+import spring.ecommerceapplication.Repositories.CategoryRepository;
 import spring.ecommerceapplication.Repositories.ProductRepository;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProductController {
     private ProductRepository productRepository;
     private ProductMapper productMapper;
+    private CategoryRepository categoriesRepository;
 
     @GetMapping
     public Iterable<ProductDtos> getAllProducts(@RequestParam(required = false, name = "categoryId") Byte categoryId) {
@@ -37,5 +39,20 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(productMapper.toDto(product));
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDtos> createProduct(@RequestBody ProductDtos request, UriComponentsBuilder uriBuilder) {
+        var category = categoriesRepository.findById(request.getCategoryId()).orElse(null);
+        if (category == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var product = productMapper.toEntity(request);
+        product.setCategory(category);
+        productRepository.save(product);
+        request.setId(product.getId());
+        var uri = uriBuilder.path("/products/{id}").buildAndExpand(product.getId()).toUri();
+        return ResponseEntity.created(uri).body(request);
     }
 }

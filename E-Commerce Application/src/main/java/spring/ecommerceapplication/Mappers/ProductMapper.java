@@ -9,4 +9,6 @@ import spring.ecommerceapplication.Entities.Products;
 public interface ProductMapper {
     @Mapping(source = "category.id", target = "categoryId")
     ProductDtos toDto(Products product);
+
+    Products toEntity(ProductDtos request);
 }
