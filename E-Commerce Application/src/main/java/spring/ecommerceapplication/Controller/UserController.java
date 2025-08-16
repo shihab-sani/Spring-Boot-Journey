@@ -1,5 +1,6 @@
 package spring.ecommerceapplication.Controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import spring.ecommerceapplication.DTOS.RegisterUserDtos;
 import spring.ecommerceapplication.Mappers.UserMapper;
 import spring.ecommerceapplication.Repositories.UserRepository;
 
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -48,7 +50,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDtos> createUser(@RequestBody RegisterUserDtos request, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody RegisterUserDtos request, UriComponentsBuilder uriBuilder) {
+        if (userRepository.existsUserByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(Map.of("email", "Email is already taken!"));
+        }
+
         var user = userMapper.toEntity(request);
         userRepository.save(user);
         var userDto = userMapper.toDto(user);
