@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/testing/src/main/java/testproject/store/testing/repositories/ProductsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/testing/src/main/java/testproject/store/testing/repositories/ProfileRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/testing/src/main/resources/db/migration/V10__create_products_proc.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/testing/src/main/resources/db/migration/V2__profile_table_added.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/testing/src/main/resources/db/migration/V5__profile_pK_added.sql" dialect="MySQL" />
+  </component>
+</project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DatabaseMigrationSettings" lastSelectedDirectory="testing/src/main/resources/db/migration" />
+  <component name="JpaLiquibaseChangesConfig">
+    <exclude-change idName="user#email" tagName="dropNotNullConstraint" />
+    <exclude-change idName="user#name" tagName="dropNotNullConstraint" />
+    <exclude-change idName="user#passward" tagName="dropNotNullConstraint" />
+  </component>
+</project>
