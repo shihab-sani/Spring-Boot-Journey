@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import spring.secondproject.Validation.Lowercase;
+import spring.ecommerceapplication.Validation.Lowercase;
 
 @Data
 public class RegisterUserDtos {
