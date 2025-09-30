@@ -1,5 +1,6 @@
 package spring.secondproject.Controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import spring.secondproject.DTOS.AddItemsToCart;
 import spring.secondproject.DTOS.CartDtos;
 import spring.secondproject.DTOS.CartItemsDtos;
+import spring.secondproject.DTOS.UpdateCartRequest;
 import spring.secondproject.Entities.Cart;
 import spring.secondproject.Entities.CartItem;
 import spring.secondproject.Mappers.CartMapper;
@@ -72,5 +74,28 @@ public class CartController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(cartMapper.toDtos(cart));
+    }
+
+    @PutMapping("/{cartId}/items/{productId}")
+    public ResponseEntity<?> updateItems(@PathVariable UUID cartId,
+                                         @PathVariable Long productId,
+                                         @Valid @RequestBody UpdateCartRequest request) {
+        var cart = cartRepository.getCartWithItems(cartId).orElse(null);
+        if (cart == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found!");
+        }
+
+        var cartItems = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId() == (productId))
+                .findFirst()
+                .orElse(null);
+
+        if (cartItems == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart item not found!");
+        }
+
+        cartItems.setQuantity(request.getQuantity());
+        cartRepository.save(cart);
+        return ResponseEntity.ok(cartMapper.toDtos(cartItems) );
     }
 }
