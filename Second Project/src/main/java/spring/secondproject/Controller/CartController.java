@@ -15,6 +15,7 @@ import spring.secondproject.Mappers.CartMapper;
 import spring.secondproject.Repositories.CartRepository;
 import spring.secondproject.Repositories.ProductRepository;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -68,13 +69,13 @@ public class CartController {
                                          @Valid @RequestBody UpdateCartRequest request) {
         var cart = cartRepository.getCartWithItems(cartId).orElse(null);
         if (cart == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Cart not found!"));
         }
 
         var cartItems = cart.getCartItem(productId);
 
         if (cartItems == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart item not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Product not found in cart!"));
         }
 
         cartItems.setQuantity(request.getQuantity());
