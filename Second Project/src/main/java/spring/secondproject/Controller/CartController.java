@@ -11,7 +11,6 @@ import spring.secondproject.DTOS.CartDtos;
 import spring.secondproject.DTOS.CartItemsDtos;
 import spring.secondproject.DTOS.UpdateCartRequest;
 import spring.secondproject.Entities.Cart;
-import spring.secondproject.Entities.CartItem;
 import spring.secondproject.Mappers.CartMapper;
 import spring.secondproject.Repositories.CartRepository;
 import spring.secondproject.Repositories.ProductRepository;
@@ -48,20 +47,7 @@ public class CartController {
             return ResponseEntity.badRequest().build();
         }
 
-        var cartItems = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getId() == (product.getId()))
-                .findFirst()
-                .orElse(null);
-
-        if (cartItems != null) {
-            cartItems.setQuantity(cartItems.getQuantity() + 1);
-        } else {
-            cartItems = new CartItem();
-            cartItems.setProduct(product);
-            cartItems.setQuantity(1);
-            cartItems.setCart(cart);
-            cart.getCartItems().add(cartItems);
-        }
+        var cartItems = cart.addItem(product);
         cartRepository.save(cart);
         var cartItemsDto = cartMapper.toDtos(cartItems);
         return ResponseEntity.status(HttpStatus.CREATED).body(cartItemsDto);
@@ -85,10 +71,7 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found!");
         }
 
-        var cartItems = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getId() == (productId))
-                .findFirst()
-                .orElse(null);
+        var cartItems = cart.getCartItem(productId);
 
         if (cartItems == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart item not found!");
