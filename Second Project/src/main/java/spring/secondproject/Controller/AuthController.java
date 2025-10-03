@@ -8,18 +8,23 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import spring.secondproject.DTOS.JwtResponse;
 import spring.secondproject.DTOS.LogInRequest;
+import spring.secondproject.Services.JwtServices;
 
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
+    private final JwtServices jwtServices;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> logIn(@Valid @RequestBody LogInRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        return ResponseEntity.ok().build();
+    public ResponseEntity<JwtResponse> logIn(@Valid @RequestBody LogInRequest request) {
+        authenticationManager.authenticate
+                (new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        var jwt = jwtServices.generateJwtToken(request.getEmail());
+        return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
