@@ -11,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import spring.secondproject.Config.JwtConfig;
 import spring.secondproject.DTOS.JwtResponse;
 import spring.secondproject.DTOS.LogInRequest;
 import spring.secondproject.DTOS.UserDtos;
@@ -24,6 +25,7 @@ import spring.secondproject.Services.JwtServices;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtServices jwtServices;
+    private final JwtConfig jwtConfig;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -39,7 +41,7 @@ public class AuthController {
         var cookies = new Cookie("refreshToken", refreshToken);
         cookies.setHttpOnly(true);
         cookies.setPath("/auth/refresh");
-        cookies.setMaxAge(604800); //7 days
+        cookies.setMaxAge(jwtConfig.getRefreshTokenExpiration());
         cookies.setSecure(true);
         response.addCookie(cookies);
 
