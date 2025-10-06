@@ -29,7 +29,8 @@ public class AuthController {
     public ResponseEntity<JwtResponse> logIn(@Valid @RequestBody LogInRequest request) {
         authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var jwt = jwtServices.generateJwtToken(request.getEmail());
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        var jwt = jwtServices.generateJwtToken(user);
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
@@ -42,8 +43,8 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserDtos> me() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var email = (String) authentication.getPrincipal();
-        var user = userRepository.findByEmail(email).orElse(null);
+        var userId = (Long) authentication.getPrincipal();
+        var user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
             return ResponseEntity.notFound().build();

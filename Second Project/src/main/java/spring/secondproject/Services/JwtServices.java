@@ -6,19 +6,21 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import spring.secondproject.Entities.User;
 
 import java.util.Date;
-import java.util.jar.JarException;
 
 @Service
 public class JwtServices {
     @Value( "${spring.jwt.secret}")
     private String secret;
 
-    public String generateJwtToken(String email) {
+    public String generateJwtToken(User user) {
         final long tokenExpiration = 86400; //1 day
         return Jwts.builder()
-                .subject(email)
+                .subject(String.valueOf(user.getId()))
+                .claim("email", user.getEmail())
+                .claim("name", user.getName())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + tokenExpiration * 1000))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -41,7 +43,7 @@ public class JwtServices {
                 .getPayload();
     }
 
-    public String getEmailFromJwtToken(String token) {
-        return getClaims(token).getSubject();
+    public Long getUserIdFromJwtToken(String token) {
+        return Long.valueOf(getClaims(token).getSubject());
     }
 }
