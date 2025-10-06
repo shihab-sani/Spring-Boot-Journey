@@ -1,5 +1,7 @@
 package spring.secondproject.Controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,12 +28,22 @@ public class AuthController {
     private final UserMapper userMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> logIn(@Valid @RequestBody LogInRequest request) {
+    public ResponseEntity<JwtResponse> logIn(@Valid @RequestBody LogInRequest request,
+                                             HttpServletResponse response) {
         authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        var jwt = jwtServices.generateJwtToken(user);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        var accessToken = jwtServices.generateAccessToken(user);
+        var refreshToken = jwtServices.generateRefreshToken(user);
+
+        var cookies = new Cookie("refreshToken", refreshToken);
+        cookies.setHttpOnly(true);
+        cookies.setPath("/auth/refresh");
+        cookies.setMaxAge(604800); //7 days
+        cookies.setSecure(true);
+        response.addCookie(cookies);
+
+        return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
     @PostMapping("/validate")
