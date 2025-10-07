@@ -30,6 +30,10 @@ public class User {
     @Column(name = "passward")
     private String password;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     @Builder.Default
     private List<Addresses> addresses = new ArrayList<>();
