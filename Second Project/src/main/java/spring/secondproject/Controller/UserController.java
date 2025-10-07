@@ -12,6 +12,7 @@ import spring.secondproject.DTOS.ChangePasswordRequest;
 import spring.secondproject.DTOS.UpdateUserDtos;
 import spring.secondproject.DTOS.UserDtos;
 import spring.secondproject.DTOS.RegisterUserDtos;
+import spring.secondproject.Entities.Role;
 import spring.secondproject.Mappers.UserMapper;
 import spring.secondproject.Repositories.UserRepository;
 
@@ -59,6 +60,7 @@ public class UserController {
 
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
         var userDto = userMapper.toDto(user);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
