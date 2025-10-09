@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import spring.secondproject.Config.JwtConfig;
+import spring.secondproject.Entities.Role;
 import spring.secondproject.Entities.User;
 
 import java.util.Date;
@@ -56,5 +57,9 @@ public class JwtServices {
 
     public Long getUserIdFromJwtToken(String token) {
         return Long.valueOf(getClaims(token).getSubject());
+    }
+
+    public Role getRoleFromJwtToken(String token) {
+        return Role.valueOf(getClaims(token).get("role", String.class));
     }
 }
