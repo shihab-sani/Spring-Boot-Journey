@@ -29,12 +29,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         var token = authHeader.replace("Bearer ",  "");
-        if(!jwtServices.validateJwtToken(token)) {
+        var jwt = jwtServices.parseToken(token);
+
+        if(jwt == null || jwt.isExpired()) {
             filterChain.doFilter(request, response);
             return;
         }
-        var role = jwtServices.getRoleFromJwtToken(token);
-        var userId = jwtServices.getUserIdFromJwtToken(token);
+        var role = jwt.getRole();
+        var userId = jwt.getUserId();
         var authentication = new UsernamePasswordAuthenticationToken(
                 userId,
                 null,
