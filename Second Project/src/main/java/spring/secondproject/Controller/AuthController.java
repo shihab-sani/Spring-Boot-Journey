@@ -17,6 +17,7 @@ import spring.secondproject.DTOS.LogInRequest;
 import spring.secondproject.DTOS.UserDtos;
 import spring.secondproject.Mappers.UserMapper;
 import spring.secondproject.Repositories.UserRepository;
+import spring.secondproject.Services.AuthServices;
 import spring.secondproject.Services.JwtServices;
 
 @RestController
@@ -28,6 +29,7 @@ public class AuthController {
     private final JwtConfig jwtConfig;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AuthServices authServices;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> logIn(@Valid @RequestBody LogInRequest request,
@@ -63,9 +65,7 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDtos> me() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var userId = (Long) authentication.getPrincipal();
-        var user = userRepository.findById(userId).orElse(null);
+        var user = authServices.getCurrentUser();
 
         if (user == null) {
             return ResponseEntity.notFound().build();
