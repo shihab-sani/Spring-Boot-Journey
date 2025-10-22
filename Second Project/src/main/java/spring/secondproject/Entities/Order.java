@@ -1,10 +1,8 @@
 package spring.secondproject.Entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,5 +35,18 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
+
+    public static Order fromCart(Cart cart, User customer){
+        var order = new Order();
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setStatus(OrderStatus.PENDING);
+        order.setCustomer(customer);
+
+        cart.getCartItems().forEach(item -> {
+            var orderItems = new OrderItem(order, item.getProduct(), item.getQuantity());
+            order.orderItems.add(orderItems);
+        });
+        return order;
+    }
 
 }

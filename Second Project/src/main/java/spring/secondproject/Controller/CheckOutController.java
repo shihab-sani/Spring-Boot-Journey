@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import spring.secondproject.DTOS.CheckOutRequest;
 import spring.secondproject.DTOS.CheckOutResponse;
 import spring.secondproject.Entities.Order;
-import spring.secondproject.Entities.OrderItem;
-import spring.secondproject.Entities.OrderStatus;
 import spring.secondproject.Repositories.CartRepository;
 import spring.secondproject.Repositories.OrderRepository;
 import spring.secondproject.Services.AuthServices;
@@ -38,20 +36,7 @@ public class CheckOutController {
             return ResponseEntity.badRequest().body(Map.of("error", "Cart is empty!"));
         }
 
-        var order = new Order();
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setStatus(OrderStatus.PENDING);
-        order.setCustomer(authServices.getCurrentUser());
-
-        cart.getCartItems().forEach(item -> {
-            var orderItems = new OrderItem();
-            orderItems.setOrder(order);
-            orderItems.setQuantity(item.getQuantity());
-            orderItems.setProduct(item.getProduct());
-            orderItems.setTotalPrice(item.getPrice());
-            orderItems.setUnitPrice(item.getProduct().getPrice());
-            order.getOrderItems().add(orderItems);
-        });
+        var order = Order.fromCart(cart, authServices.getCurrentUser());
         orderRepository.save(order);
 
        return ResponseEntity.ok(new CheckOutResponse(order.getId()));
